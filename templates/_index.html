@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play/Pause Button</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: blueviolet;
+        }
+        #button-container {
+            position: relative;
+        }
+        #resumepause {
+            width: 200px;
+            height: 150px;
+            border: none;
+            background: rgb(105, 32, 173);
+            cursor: pointer;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 80px;
+            border-radius: 40px;
+            outline: none;
+            transition: transform 0.3s ease; /* Добавлено свойство transition для плавной анимации */
+        }
+        #shadow {
+            position: absolute;
+            top: 30px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 40px;
+            background-color: rgba(0, 0, 0, 0.5); /* Цвет тени */
+            pointer-events: none; 
+            z-index: -1;/* Тень не должна перехватывать события клика */
+        }
+        /* Добавлены стили для изменения положения кнопки при активном состоянии */
+        #resumepause.active {
+            transform: translateY(20px);
+        }
+    </style>
+</head>
+<body>
+    <div id="button-container">
+        <div id="shadow"></div> <!-- Тень -->
+        <button id="resumepause" onclick="toggleresumepause()"></button>
+    </div>
+
+    <script>
+        var isPlaying = false;
+        var playIcon = "{{ url_for('static', filename='img/buttons/resume.png') }}";
+        var pauseIcon = "{{ url_for('static', filename='img/buttons/pause.png') }}";
+
+        function toggleresumepause() {
+            var button = document.getElementById("resumepause");
+            isPlaying = !isPlaying;
+            button.style.backgroundImage = "url('" + (isPlaying ? pauseIcon : playIcon) + "')";
+            button.classList.toggle('active', isPlaying); // Добавлено добавление/удаление класса 'active' в зависимости от состояния isPlaying
+        }
+
+        // Первичный вызов функции для установки начального состояния
+        toggleresumepause();
+    </script>
+</body>
+</html>

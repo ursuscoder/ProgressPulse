@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Play/Pause Button</title>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Telegram Mini Apps Vanilla JS Sample App</title>
     <style>
         body {
             display: flex;
@@ -13,9 +16,11 @@
             margin: 0;
             background-color: blueviolet;
         }
+
         #button-container {
             position: relative;
         }
+
         #resumepause {
             width: 200px;
             height: 150px;
@@ -27,8 +32,10 @@
             background-size: 80px;
             border-radius: 40px;
             outline: none;
-            transition: transform 0.3s ease; /* Добавлено свойство transition для плавной анимации */
+            transition: transform 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
         }
+
         #shadow {
             position: absolute;
             top: 30px;
@@ -36,36 +43,113 @@
             width: 100%;
             height: 100%;
             border-radius: 40px;
-            background-color: rgba(0, 0, 0, 0.5); /* Цвет тени */
-            pointer-events: none; 
-            z-index: -1;/* Тень не должна перехватывать события клика */
+            background-color: rgba(0, 0, 0, 0.5);
+            pointer-events: none;
+            z-index: -1;
         }
-        /* Добавлены стили для изменения положения кнопки при активном состоянии */
+
         #resumepause.active {
             transform: translateY(20px);
         }
+
+        /* Hide the preloaded images */
+        #preloaded-images {
+            display: none;
+        }
     </style>
 </head>
+
 <body>
-    <div id="button-container">
-        <div id="shadow"></div> <!-- Тень -->
-        <button id="resumepause" onclick="toggleresumepause()"></button>
+    <!-- Preload images -->
+    <div id="preloaded-images">
+        <img src="static/img/buttons/resume.png" alt="Resume Icon">
+        <img src="static/img/buttons/pause.png" alt="Pause Icon">
     </div>
 
+    <main>
+        <div id="button-container">
+            <div id="shadow"></div>
+            <button id="resumepause" onclick="toggleresumepause()"></button>
+        </div>
+    </main>
     <script>
         var isPlaying = false;
-        var playIcon = "{{ url_for('static', filename='img/buttons/resume.png') }}";
-        var pauseIcon = "{{ url_for('static', filename='img/buttons/pause.png') }}";
+        var playIcon = "static/img/buttons/resume.png";
+        var pauseIcon = "static/img/buttons/pause.png";
 
         function toggleresumepause() {
             var button = document.getElementById("resumepause");
             isPlaying = !isPlaying;
             button.style.backgroundImage = "url('" + (isPlaying ? pauseIcon : playIcon) + "')";
-            button.classList.toggle('active', isPlaying); // Добавлено добавление/удаление класса 'active' в зависимости от состояния isPlaying
+            button.classList.toggle('active', isPlaying);
         }
 
-        // Первичный вызов функции для установки начального состояния
-        toggleresumepause();
+        // Load preloaded images
+        function loadImages() {
+            var preloadedImages = document.getElementById("preloaded-images");
+            preloadedImages.style.display = "block";
+        }
+
+        // Call loadImages() to preload images
+        loadImages();
     </script>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        // Init TWA
+        Telegram.WebApp.ready();
+
+        // Event occurs whenever theme settings are changed in the user's Telegram app (including switching to night mode).
+        Telegram.WebApp.onEvent('themeChanged', function () {
+            document.documentElement.className = Telegram.WebApp.colorScheme;
+        });
+
+        // Show main button
+        Telegram.WebApp.MainButton.setParams({
+            text: 'Main Button'
+        });
+        Telegram.WebApp.MainButton.onClick(function () {
+            Telegram.WebApp.showAlert('Main Button was clicked')
+        });
+        Telegram.WebApp.MainButton.show();
+
+        // Function to call showPopup API
+        function showPopup() {
+            Telegram.WebApp.showPopup({
+                title: 'Title',
+                message: 'Some message',
+                buttons: [
+                    { id: 'link', type: 'default', text: 'Open ton.org' },
+                    { type: 'cancel' },
+                ]
+            }, function (btn) {
+                if (btn === 'link') {
+                    Telegram.WebApp.openLink('https://ton.org/');
+                }
+            });
+        };
+
+        // Function to toggle main TWA button
+        function toggleMainButton() {
+            if (Telegram.WebApp.MainButton.isVisible) {
+                Telegram.WebApp.MainButton.hide();
+            } else {
+                Telegram.WebApp.MainButton.show();
+            }
+        };
+
+        Telegram.WebApp.setHeaderColor('secondary_bg_color');
+
+        Telegram.WebApp.onEvent('themeChanged', function () {
+            document.body.setAttribute('style', '--bg-color:' + Telegram.WebApp.backgroundColor);
+        });
+        Telegram.WebApp.expand()
+    </script>
+    
+
+    <!-- Eruda is console for mobile browsers -->
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    <script>eruda.init();</script>
 </body>
+
 </html>
