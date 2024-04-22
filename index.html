@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Play/Pause Button</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: blueviolet;
+        }
+        #button-container {
+            position: relative;
+        }
+        #resumepause {
+            width: 200px;
+            height: 150px;
+            border: none;
+            background: rgb(105, 32, 173);
+            cursor: pointer;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 80px;
+            border-radius: 40px;
+            outline: none;
+            transition: transform 0.3s ease;
+        }
+        #shadow {
+            position: absolute;
+            top: 30px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 40px;
+            background-color: rgba(0, 0, 0, 0.5); 
+            pointer-events: none; 
+            z-index: -1;
+        }
+
+        #resumepause.active {
+            transform: translateY(20px);
+        }
+    </style>
+</head>
+<body>
+    <div id="button-container">
+        <div id="shadow"></div>
+        <button id="resumepause" onclick="toggleresumepause()"></button>
+    </div>
+
+    <script>
+        var isPlaying = false;
+        var playIcon = "static/img/buttons/resume.png";
+        var pauseIcon = "static/img/buttons/pause.png";
+
+        function toggleresumepause() {
+            var button = document.getElementById("resumepause");
+            isPlaying = !isPlaying;
+            button.style.backgroundImage = "url('" + (isPlaying ? pauseIcon : playIcon) + "')";
+            button.classList.toggle('active', isPlaying); 
+        }
+
+        toggleresumepause();
+    </script>
+</body>
+</html>
