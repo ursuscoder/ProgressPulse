@@ -94,8 +94,8 @@
             Telegram.WebApp.setHeaderColor('secondary_bg_color');
         }
 
-        setViewportData();
-        Telegram.WebApp.onEvent('viewportChanged', setViewportData);
+        setViewport();
+        Telegram.WebApp.onEvent('viewportChanged', setViewport);
 
         Telegram.WebApp.onEvent('themeChanged', function () {
             document.body.setAttribute('style', '--bg-color:' + Telegram.WebApp.backgroundColor);
