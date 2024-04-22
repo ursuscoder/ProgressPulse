@@ -175,7 +175,7 @@
     <script>
         // Init TWA
         Telegram.WebApp.ready();
-        Telegram.WebApp.ThemeParams.bg_color = '#8a2be2'
+        Telegram.WebApp.setBackgroundColor('#8a2be2')
 
         // Event occurs whenever theme settings are changed in the user's Telegram app (including switching to night mode).
         Telegram.WebApp.onEvent('themeChanged', function () {
