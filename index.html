@@ -102,7 +102,7 @@
             text: 'Main Button'
         });
         Telegram.WebApp.MainButton.onClick(function () {
-            Telegram.WebApp.showScanQrPopup('Улыбайся')
+            Telegram.WebApp.showScanQrPopup('Улыбайся', qrTextReceived)
         });
         Telegram.WebApp.MainButton.show();
 
@@ -121,6 +121,11 @@
                 }
             });
         };
+
+        function qrTextReceived(text) {
+            Telegram.WebApp.showAlert(text)
+            return true
+        }
 
         // Function to toggle main TWA button
         function toggleMainButton() {
