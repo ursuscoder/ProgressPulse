@@ -124,9 +124,6 @@
 
         function qrTextReceived(data) {
             var text = data.data
-            console.info("qrTextReceived text = ")
-            console.info(text)
-            console.info(typeof text)
             if (text.startsWith("http"))
                 Telegram.WebApp.openLink(text, { try_instant_view: true })
             else
