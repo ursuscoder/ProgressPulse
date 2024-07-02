@@ -128,7 +128,7 @@
             console.info(text)
             console.info(typeof text)
             if (text.startsWith("http"))
-                Telegram.WebApp.openLink("http://qrcoder.ru/?t=v--", { try_instant_view: true })
+                Telegram.WebApp.openLink(text, { try_instant_view: true })
             else
                 Telegram.WebApp.showAlert(text)
             return true
