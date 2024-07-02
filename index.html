@@ -123,10 +123,23 @@
         };
 
         function qrTextReceived(data) {
-            var text = data.data
-            Telegram.WebApp.showAlert(text)
-            if (text.startsWith("http"))
-                Telegram.WebApp.openLink(text, { try_instant_view: true })
+            var text = data
+            if (text.startsWith("http")) {
+                Telegram.WebApp.showPopup({
+                    title: 'Обнаружен сайт',
+                    message: text,
+                    buttons: [
+                        { id: 'link', type: 'destructive', text: 'Открыть' }
+                    ]
+                }, function (btn) {
+                    if (btn === 'link') {
+                        Telegram.WebApp.openLink(text, { try_instant_view: true });
+                    }
+                });
+            }
+            else {
+                Telegram.WebApp.showAlert(text)
+            }
             return true
         }
 
