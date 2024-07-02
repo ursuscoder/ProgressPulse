@@ -122,7 +122,8 @@
             });
         };
 
-        function qrTextReceived(text) {
+        function qrTextReceived(data) {
+            var text = data.data
             console.info("qrTextReceived text = ")
             console.info(text)
             console.info(typeof text)
